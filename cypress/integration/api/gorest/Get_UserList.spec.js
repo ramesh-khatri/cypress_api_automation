@@ -2,7 +2,13 @@
 
 describe('GET user list test', () => {
     beforeEach(() => {
-        cy.request('/users').as('mainURL');
+        cy.request({
+            method: 'GET',
+            url: '/users',
+            headers: {
+                Authorization: Cypress.env('auth_token'), 
+            }
+        }).as('mainURL');
     });
  
     it('Validate the header', () => {
@@ -16,5 +22,13 @@ describe('GET user list test', () => {
         cy.get('@mainURL')
             .its('status')
             .should('be.equal', 200);
+    });
+
+    it('Validate that IDs are unique', () => {
+        cy.get('@mainURL').then((my_response) => {
+            const ids = my_response.body.data.map(e => e.id)
+            const setIds = new Set(ids)
+            expect(ids.length).to.equal(setIds.size);
+        })
     });
 });
