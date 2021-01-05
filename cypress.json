@@ -1,0 +1,6 @@
+{
+    "baseUrl": "https://gorest.co.in/public-api",
+    "env": {
+        "auth_token": "Bearer 916eb#################################################"
+    }
+}
